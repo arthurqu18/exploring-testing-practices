@@ -44,8 +44,32 @@ Escolha uma prática ou dado de teste relevante e explique com suas próprias pa
 
 ## Respostas
 
-Repositório: `<URL_DO_REPOSITÓRIO>`
+Repositório: [fastapi](https://github.com/fastapi/fastapi)
 
-URL TestMiner: `<URL_NO_TESTMINER>`
+URL TestMiner: [TestMiner fastapi](https://andrehora.github.io/testminer/#fastapi/fastapi)
 
-Explicação: `<SUA_EXPLICAÇÃO>`
+Explicação: O repositório possui 370 testes padrões (unitários ou de integração), 95 test helpers, mas a maioria é de indicador `__init__.py`, 13 benchmarks, 2 CI tests e 1 teste Smoke. Os nomes de cada arquivo teste é intuitivo do que está sendo testado ali, só não há uma separação clara de testes unitários de testes de integração. Há uso constante de fixture e de parametrizing testes, como nos exemplos abaixo, e não achei uso de mock ou stubb nos testes.
+
+```python
+@pytest.fixture(
+    name="client",
+    params=[
+        pytest.param("tutorial002_py310", marks=needs_py310),
+        pytest.param("tutorial002_an_py310", marks=needs_py310),
+    ],
+)
+
+@pytest.mark.parametrize(
+    "path,expected_status,expected_response",
+    [
+        ("/items/", 200, [{"name": "Foo", "price": 42}]),
+        ("/users/", 200, [{"username": "johndoe"}]),
+        ("/elements/", 200, [{"item_id": "Foo"}]),
+    ],
+)
+```
+
+Há também muito testes voltados para exceções, verificando explicitamente que um erro é esperado quando executa uma determinada ação. Interessante a se notar é a documentação de alguns testes em diferentes linguagens (chines, ingles, portugues, etc) para entendimento geral do público.
+
+
+
